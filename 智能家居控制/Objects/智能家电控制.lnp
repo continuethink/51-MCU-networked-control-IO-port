@@ -1,0 +1,8 @@
+".\Objects\main.obj",
+".\Objects\uart.obj",
+".\Objects\delay.obj",
+".\Objects\key.obj",
+".\Objects\oled.obj" 
+TO ".\Objects\智能家电控制" 
+PRINT(".\Listings\智能家电控制.m51") RAMSIZE(256) 
+DISABLEWARNING (16) 

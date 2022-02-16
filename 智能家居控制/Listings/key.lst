@@ -1,0 +1,64 @@
+C51 COMPILER V9.59.0.0   KEY                                                               02/13/2022 17:30:51 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE KEY
+OBJECT MODULE PLACED IN .\Objects\key.obj
+COMPILER INVOKED BY: E:\keil5\C51\BIN\C51.EXE key.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\key.lst
+                    -) TABS(2) OBJECT(.\Objects\key.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          unsigned char Keynum;
+   4          
+   5          void Timer0Init(void)   //1000微秒@11.0592MHz
+   6          {
+   7   1      //  AUXR &= 0x7F;   //定时器时钟12T模式
+   8   1        TMOD &= 0xF0;   //设置定时器模式
+   9   1        TMOD |= 0x01;   //设置定时器模式
+  10   1        TL0 = 0x66;   //设置定时初始值
+  11   1        TH0 = 0xFC;   //设置定时初始值
+  12   1        TF0 = 0;    //清除TF0标志
+  13   1        TR0 = 1;    //定时器0开始计时
+  14   1        ET0=1;
+  15   1        EA=1;
+  16   1        TR0=1;
+  17   1      }
+  18          
+  19          unsigned char key_list()
+  20          {
+  21   1        unsigned char num=0;
+  22   1        if(P1_0==0){num=1;}
+  23   1        return num;
+  24   1      }
+  25          
+  26          void key_timer()
+  27          {
+  28   1        static unsigned char last,now;
+  29   1        last=now;
+  30   1        now=key_list();
+  31   1        if(last==1&now==0){Keynum=1;}
+  32   1      }
+  33          
+  34          unsigned char key()
+  35          {
+  36   1        unsigned char i;
+  37   1        i=Keynum;
+  38   1        Keynum=0;
+  39   1        return i;
+  40   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     73    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
